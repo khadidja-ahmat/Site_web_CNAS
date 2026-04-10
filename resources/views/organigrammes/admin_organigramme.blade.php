@@ -1,0 +1,66 @@
+@extends('layout/layout')
+@section('content')
+ <div id="portfolio" class="portfolio-area area-padding fix">
+    <div class="container">
+      <div class="row"><br><br>        
+      <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+          <div class="section-headline text-center">
+            <h2>Nos organigrammes</h2>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+      <div class="flex-end" >
+            <a href="{{route('admin.organigrammes.create')}}" class="btn btn-sm btn-primary float-right">Nouveau</a>
+      </div>
+
+      <div class="awesome-project-content">
+          <!-- single-awesome-project start --> 
+          <div class="col-md-4 col-sm-4 col-xs-12 design development">
+           @foreach($organigrammes as $organigramme)
+            <div class="single-awesome-project">
+              <div class="awesome-img">
+              <a><img src="{{url('/images/organigrammes/'.$organigramme->image)}}" alt=""></a>
+             </a>
+              <div class="add-actions text-center">
+                  <div class="project-dec">
+                    <a class="venobox" data-gall="myGallery" href="/images/organigrammes/{{$organigramme->image}}">
+                    </a>
+                  </div>
+                </div>
+              </div>
+
+            </div>
+
+          </div>
+      <div class="col-sm-12">
+                <div class="mb-3">
+                  <a href="{{route('admin.organigrammes.edit', $organigramme->id)}}" class="btn  btn-block btn-outline-warning " >Modifier</a>
+                  <a class='btn btn-block btn-outline-danger' href='#'  role='button' onClick="deleteorganigramme({{$organigramme ->id}});">Supprimer</a>
+
+                                    <form action="{{route('admin.organigrammes.destroy', $organigramme->id)}}" method="post" id="delete-{{$organigramme->id}}">
+                                    @csrf
+                                                @method('delete')
+
+                                   </form>
+
+
+                </div>
+              </div>
+        </div>
+ @endforeach
+    </div>
+    <script>
+        function deleteorganigramme(id) {
+            if(confirm('Etes vous sure de vouloir supprimer cette enregistrement ?')){
+                document.getElementById('delete-' + id).submit();
+            }
+        }
+    </script>
+    </div>
+  </div>    
+   </div>
+      </div>
+    </div>
+  </div>
+  @endsection

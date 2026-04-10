@@ -1,0 +1,52 @@
+@extends('layoutAdmin.layouts')
+@section('content')
+
+<br><br>
+  <div id="team" class="our-team-area area-padding">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-12 col-sm-12 col-xs-12">
+          <div class="section-headline text-center">
+            <h2>Nos activites</h2>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+      <div class="flex-end" >
+            <a href="{{route('activites.create')}}" class="btn btn-sm btn-primary float-right">Nouveau</a>
+      </div>
+      <div class="row">
+             @foreach($activites as $activite)
+          <div class="col-md-3 col-sm-3 col-xs-12">
+            <div class="single-team-member">
+              <div class="awesome-img">
+                <a href="#">
+                   <img src="{{url('images/activites/'.$activite->image)}}" alt="">
+									</a>
+              </div>
+              <div class="team-content text-center">
+               <a class="venobox" data-gall="myGallery"  href="images/activites/{{$activite->image}}">
+                      <h4>{{$activite->titre}}</h4>
+                      <p>{{$activite->description}}</p>
+                    </a>
+              </div>
+            </div>
+          </div>
+           @endforeach
+          <!-- End column -->
+        </div>
+      </div>
+    </div>
+  </div>
+  </div>
+    <script>
+        function deleteActivite(id) {
+            if(confirm('Etes vous sure de vouloir supprimer cette enregistrement ?')){
+                document.getElementById('delete-' + id).submit();
+            }
+        }
+    </script>
+    </div>
+  </div>
+  @endsection
+  <!-- End Team Area -->
