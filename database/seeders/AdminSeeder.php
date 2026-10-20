@@ -2,28 +2,39 @@
 
 namespace Database\Seeders;
 
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
-use Illuminate\Database\Seeder;
 use App\Models\Admin;
-use App\Models\User;
-use Illuminate\Support\Facades\Hash;
+use Illuminate\Database\Seeder;
 
 class AdminSeeder extends Seeder
 {
     /**
-     * Run the database seeds.
+     * Crée (ou met à jour) le compte administrateur du back-office.
+     *
+     * L'e-mail et le mot de passe sont lus dans le fichier .env
+     * (ADMIN_EMAIL, ADMIN_PASSWORD) : aucun identifiant n'est écrit dans le code.
      */
     public function run(): void
     {
-        Admin::create([
-            'name' => 'Admin',
-            'email' => 'Admin@artcode.org',
-            'password' => Hash::make('Admin123'),
-        ]);
-        User::create([
-            'name' => 'User',
-            'email' => 'user@artcode.org',
-            'password' => Hash::make('user123'),
-        ]);
+        $email = env('ADMIN_EMAIL');
+        $password = env('ADMIN_PASSWORD');
+
+        if (empty($email) || empty($password)) {
+            $this->command->error(
+                'ADMIN_EMAIL et ADMIN_PASSWORD doivent être définis dans le fichier .env avant de lancer le seeder.'
+            );
+
+            return;
+        }
+
+        // Le modèle Admin hache le mot de passe (cast "hashed").
+        Admin::updateOrCreate(
+            ['email' => $email],
+            [
+                'name' => env('ADMIN_NAME', 'Administrateur'),
+                'password' => $password,
+            ]
+        );
+
+        $this->command->info("Compte administrateur prêt : {$email}");
     }
 }

@@ -17,5 +17,7 @@ yarn-error.log
 /.fleet
 /.idea
 /.vscode
-**/.idea
 
+# Photos et fichiers envoyés via le back-office : à ne pas publier
+/public/images/*/*
+!/public/images/*/.gitkeep
